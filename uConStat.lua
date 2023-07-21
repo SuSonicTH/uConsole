@@ -1,7 +1,8 @@
 #!/usr/bin/luajit
 
-local ucon = require('uconsole')
+local ucon = require 'uConsole'
 local ffi = require 'ffi'
+local argparse = require 'lib/argparse'
 
 ffi.cdef [[
     int open(const char*, int flags);
@@ -48,6 +49,7 @@ local function log_stats(interval, stdout, path, runtime)
     local files = {}
 
     if path then
+        print("opening" .. tostring(path))
         files[#files + 1] = assert(io.open(path, 'w'))
     end
     if stdout then
@@ -84,68 +86,23 @@ local function log_stats(interval, stdout, path, runtime)
     end
 end
 
-local function printhelp(error)
-    io.stderr:write [[
-uConStat v0.1
-a metrics logger for uConsole
+local parser = argparse("uConStat", "uConStat - a metrics logger for uConsole")
+parser:option("--stdout", "log to standard output (terminal)"):args("0")
+parser:option("--output", "log to file <output>"):args("1")
+parser:option("--runtime", "set runtime to <runtime> seconds", nil, tonumber):args("1")
+parser:option("--interval", "set logging interval in seconds", "1", tonumber):args("1")
+parser:option("--backlight", "set backlight level [0-9]", "0", tonumber):args("1")
 
-usage: uconstat.lua [options]
+local args = parser:parse()
 
-options:
-        --output <filename>  output to file named <filename>
-        --stdout             print to console
-        --time <seconds>     run for <seconds> and exit
-        --interval <seconds> logging interval in seconds (defaults to 1)
-
-]]
-
-    if error then
-        io.stderr:write("Error: ", error, "\n\n")
-        os.exit(1)
-    end
-    os.exit(0)
+local old_backlight
+if args.backlight ~= nil then
+    old_backlight = ucon.get_backlight()
+    ucon.set_backlight(args.backlight)
 end
 
-local output
-local stdout = false
-local runtime
-local i = 1
-local interval = 1
+log_stats(args.interval, args.stdout, args.output, args.runtime)
 
-while i <= #arg do
-    if arg[i] == '--help' then
-        printhelp()
-    elseif arg[i] == '--stdout' then
-        stdout = true
-    elseif arg[i] == '--output' then
-        if i == #arg or arg[i + 1]:sub(1, 2) == "--" then
-            printhelp("argument --output needs a filename as argument")
-        end
-        output = arg[i + i]
-        i = i + 1
-    elseif arg[i] == '--time' then
-        print("intime")
-        if i == #arg or arg[i + 1]:sub(1, 2) == "--" then
-            printhelp("argument --time needs seconds as argument")
-        end
-        print(runtime)
-        runtime = tonumber(arg[i + i])
-        print(runtime)
-        i = i + 1
-    elseif arg[i] == '--interval' then
-        if i == #arg or arg[i + 1]:sub(1, 2) == "--" then
-            printhelp("argument --interval needs seconds as argument")
-        end
-        interval = tonumber(arg[i + i])
-        i = i + 1
-    else
-        printhelp("unknown argument '" .. arg[i])
-    end
-    i = i + 1
+if args.backlight ~= nil then
+    ucon.set_backlight(old_backlight)
 end
-
-if output == nil and not stdout then
-    printhelp("at least one of --output or --stdout has to be given")
-end
-
-log_stats(interval, stdout, output, runtime)
