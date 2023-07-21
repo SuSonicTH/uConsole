@@ -49,7 +49,6 @@ local function log_stats(interval, stdout, path, runtime)
     local files = {}
 
     if path then
-        print("opening" .. tostring(path))
         files[#files + 1] = assert(io.open(path, 'w'))
     end
     if stdout then
@@ -61,7 +60,7 @@ local function log_stats(interval, stdout, path, runtime)
     local enter = key_reader()
     local start = time()
     local elapsed
-    io.stderr:write("uConStat logging ... press ENTER to stop\n")
+    io.stderr:write("uConStat start logging ... press ENTER to stop\n")
     log_line(files, HEADER)
     while true do
         elapsed = os.time() - start
@@ -78,7 +77,7 @@ local function log_stats(interval, stdout, path, runtime)
             stats.backlight
         }, ","))
 
-        if enter.read() or (runtime > 1 and elapsed >= runtime) then
+        if enter.read() or (runtime and elapsed >= runtime) then
             break
         end
 
@@ -86,14 +85,17 @@ local function log_stats(interval, stdout, path, runtime)
     end
 end
 
-local parser = argparse("uConStat", "uConStat - a metrics logger for uConsole")
-parser:option("--stdout", "log to standard output (terminal)"):args("0")
+local parser = argparse("uConStat", "uConStat - a metrics logger for uConsole"):help_description_margin(30)
+parser:option("--stdout", "log to standard output default, additional if output is set"):args("0")
 parser:option("--output", "log to file <output>"):args("1")
-parser:option("--runtime", "set runtime to <runtime> seconds", nil, tonumber):args("1")
-parser:option("--interval", "set logging interval in seconds", "1", tonumber):args("1")
-parser:option("--backlight", "set backlight level [0-9]", "0", tonumber):args("1")
+parser:option("--runtime", "set runtime to <runtime> seconds"):args("1"):convert(tonumber)
+parser:option("--interval", "set logging interval in seconds", "1", tonumber):args("1"):default(1):convert(tonumber)
+parser:option("--backlight", "set backlight level [0-9]"):args("1"):convert(tonumber)
 
 local args = parser:parse()
+if (args.output == nil) then
+    args.stdout = true
+end
 
 local old_backlight
 if args.backlight ~= nil then
