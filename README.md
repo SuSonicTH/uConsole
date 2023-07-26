@@ -1,6 +1,9 @@
 # uConsole tools and howtos
 This repo is for tools and documentation for my newest toy [uConsole](https://www.clockworkpi.com/uconsole)
 
+## HowTo
+[A collection of tweeks and howtos](/HowTo.md)
+
 ## tools
 * uconsole.lua - a lua library to get battary and cpu stats
 * uConStat.lua - a script using uconsole.lua to write statistics
@@ -9,6 +12,4 @@ This repo is for tools and documentation for my newest toy [uConsole](https://ww
 
 ## power
 Some statistics of benchmarks I ran for power usage of different components and with different CPU clocks.
-
-
 
