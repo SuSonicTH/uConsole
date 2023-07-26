@@ -8,5 +8,7 @@ This repo is for tools and documentation for my newest toy [uConsole](https://ww
 * uConStatSum.lua - sums up the statistics from a file and outputs min,mx, avg, and median for clock, power usage, ...
 
 ## power
-some statistics of benchmarks I ran for power usage 
+Some statistics of benchmarks I ran for power usage of different components and with different CPU clocks.
+
+
 
