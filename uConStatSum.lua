@@ -77,12 +77,12 @@ if #arg == 0 then
 end
 
 for _, filename in ipairs(arg) do
-    local stat = sum(readfile(filename), { 'clock', 'current', 'voltage', 'watt', })
+    local stat = sum(readfile(filename), { 'clock', 'current', 'voltage', 'watt', 'temp' })
 
     local data_name = filename:sub(-4, -1) == ".csv" and filename:sub(1, -5) or filename
     print(data_name)
     print(",average,min,max,median")
-    for _, name in ipairs { 'clock', 'current', 'voltage', 'watt' } do
+    for _, name in ipairs { 'clock', 'current', 'voltage', 'watt', 'temp'  } do
         print(table.concat({
             name,
             stat[name].avg, stat[name].min, stat[name].max, stat[name].median
