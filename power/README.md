@@ -1,8 +1,8 @@
 # uConsole Power usage
 
-I ran some stastistics to see how backlight level, wifi, bluetooth and over/underclocking affect the power usage and projected runtime of the uconsole.
+I ran some stastistics to see how backlight level, wifi, bluetooth and over/underclocking affect the power usage and projected runtime of my uconsole with the raspberry pi CM4 module.
 
-Bleow you'll find an overview of the benchmarks I ran. In the stats subdirectory you'll find all the raw data taken. All data with graphs are also available in [Google Docs](https://docs.google.com/spreadsheets/d/1pOxwXdjOGgtJILX_jXlkyKt9TFnzl48nyjTw3aHt3zE/edit?usp=sharing)
+Below you'll find an overview of the benchmarks I ran. In the stats subdirectory you'll find all the raw data taken. All data with graphs are also available in [Google Docs](https://docs.google.com/spreadsheets/d/1pOxwXdjOGgtJILX_jXlkyKt9TFnzl48nyjTw3aHt3zE/edit?usp=sharing)
 
 *WARNING:*
 *I'm not a statistics guy and this is the first time that I'm doing some detailed power usage benchmarks (other then eyball them) so take the numbers with a grain of salt*
