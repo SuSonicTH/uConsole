@@ -7,7 +7,9 @@ BACKLIGHT="/sys/class/backlight/backlight@0/brightness"
 OLD_BACKLIGHT=`cat /sys/class/backlight/backlight@0/brightness`
 echo 0 > $BACKLIGHT
 
-$SCRIPTPATH/uConStat.lua &
+cd $SCRIPTPATH
+./uConStat.lua &
+cd -
 $@ &> /dev/null
 pkill uConStat.lua
 
