@@ -48,6 +48,24 @@ To mesure the power draw I ran the uConStat tool for 1 minute with wifi and blue
 | on   | off | 1.941       |
 | on   | on  | 1.998       |
 
+
+## 4G module
+The 4G module seems to need around 0.4 Watt when turned on without an active connection. Currently I can't test it with a connection as I didn't get it to run yet.
+This makes it, besides the display brightness, to the most consuming component and turning it on would reduce the battery live (in idle) by 1.8 hours with 6000mah batteries.
+
+| median               | watt  |
+| -------------------- | ----- |
+| 4G off               | 1.986 |
+| 4G on                | 2.377 |
+| median 4G usage Watt | 0.391 |
+
+| state      | idle runtime with 6000mah |
+| ---------- | ------------------------- |
+| 4G off     | 11.18                     |
+| 4G on      | 9.34                      |
+| difference | 1.84                      |
+
+
 ## over/under clocking the CPU
 You can over/underclock the cpu by tweaking the `arm_freq` setting in `/boot/config.txt`
 stock is 1500 (mhz) and max is around 2200 (depending on your CPU) you can also set it lower then stock (I tried 1200)
