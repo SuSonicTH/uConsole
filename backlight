@@ -1,0 +1,7 @@
+#!/bin/bash
+
+if [ "$#" -eq 0 ]; then  
+  cat /sys/class/backlight/backlight@0/brightness
+else
+  echo $1 > /sys/class/backlight/backlight@0/brightness
+fi
